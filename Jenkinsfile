@@ -2,6 +2,7 @@ pipeline {
     agent {
         docker {
             image 'maven:3.8.4-jdk-11'  // Maven Docker image
+             image 'docker:20.10-dind'
         }
     }
 
