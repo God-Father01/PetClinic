@@ -1,9 +1,10 @@
 pipeline {
     agent {
         docker {
-            image 'godfather77701/webapp:v49'
+            image 'maven:3.8.4-jdk-11'  // Maven Docker image
         }
     }
+
     tools {
         maven 'maven'  // The name you provided when configuring Maven in Jenkins
     }
@@ -28,7 +29,6 @@ pipeline {
                     sh "mvn test"
                     sh "mvn install"
                     sh "mvn package"
-                    // Or use a single command: sh "mvn clean package"
                 }
             }
         }
@@ -38,7 +38,7 @@ pipeline {
                 script {
                     withCredentials([usernameColonPassword(credentialsId: 'DockerId', variable: 'MY_DOCKER_VAR')]) {
                         sh "docker build -t godfather77701/webapp:${DOCKER_BUILDNUMBER} ."
-                        sh "docker run -d -p 8080:8080 godfather77701/webapp:${DOCKER_BUILDNUMBER}"  // Fixed port mapping
+                        sh "docker run -d -p 8080:8080 godfather77701/webapp:${DOCKER_BUILDNUMBER}"
                     }
                 }
             }
