@@ -15,7 +15,7 @@ Stages{
 
 stage('CHECKOUT FROM SCM'){
 steps{
-git "https://github.com/God-Father01/PetClinic.git" 
+sh "git clone https://github.com/God-Father01/PetClinic.git" 
 }
 
 stage('BUILD STAGE'){
