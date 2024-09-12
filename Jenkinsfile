@@ -4,7 +4,9 @@ pipeline {
             image 'godfather77701/webapp:v49'
         }
     }
-
+tools {
+        maven 'maven'  // This should match the name you set in Jenkins configuration
+    }
     environment {
         MY_DOCKER_VAR = "DockerId"
         DOCKER_BUILDNUMBER = "${env.BUILD_NUMBER}"
