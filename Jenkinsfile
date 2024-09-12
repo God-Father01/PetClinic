@@ -1,15 +1,13 @@
 pipeline {
     agent {
         docker {
-            image 'maven:3.8.4-jdk-11'  // Maven Docker image
-             image 'docker:20.10-dind'
+            image 'docker:20.10-dind'  // Docker-in-Docker image
+            args '-v /var/lib/docker'  // Volume for Docker daemon
         }
     }
-
-    tools {
-        maven 'maven'  // The name you provided when configuring Maven in Jenkins
-    }
-
+tools{
+    maven 'maven'
+}
     environment {
         MY_DOCKER_VAR = "DockerId"
         DOCKER_BUILDNUMBER = "${env.BUILD_NUMBER}"
@@ -25,6 +23,11 @@ pipeline {
         stage('BUILD STAGE') {
             steps {
                 script {
+                    // Install Maven in the Docker container
+                    sh '''
+                    apt-get update
+                    apt-get install -y maven
+                    '''
                     sh "mvn clean"
                     sh "mvn validate"
                     sh "mvn test"
