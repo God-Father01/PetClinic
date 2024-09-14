@@ -22,14 +22,13 @@ pipeline {
         stage('Docker') {
             steps {
                 script {
-                    withCredentials([usernameColonPassword(credentialsId: 'DockerId', variable: 'DOCKER_IMAGE_BUILD_ID')]) {
-                        // Build the Docker image
-                        sh "docker build -t godfather77701/webapp:${BUILD_NUMBER} ."
-                        // Push the Docker image which is built with build number tag
-                        def dockerImageName = "godfather77701/webapp:${BUILD_NUMBER}"
-                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
-                        // Push the Docker image
-                        sh "docker push ${dockerImageName}"
+                   withCredentials([usernameColonPassword(credentialsId: 'DockerId', variable: 'DOCKER_IMAGE_BUILD_ID')]) {
+                //builds the docker image
+                sh "docker build -t godfather77701/webapp:${BUILD_NUMBER} ."
+                //push the docker image which is built with build number tag
+                def dockerImageName="godfather77701/webapp:${BUILD_NUMBER}"
+                //push the docker image
+                sh "docker push ${dockerImageName}"
                     }
                 }
             }
