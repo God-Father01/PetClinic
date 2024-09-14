@@ -42,7 +42,9 @@ pipeline {
                 script{
                     sh "minikube start --driver=docker"
                   sh "cd manifest/" 
-                  sh " sed -i 's/image: godfather77701\/webapp:.*/image: godfather77701\/webapp:'"${BUILD_NUMBER}"'/' Deployment.yaml"
+                sh """
+    sed -i 's|image: godfather77701/webapp:.*|image: godfather77701/webapp:${BUILD_NUMBER}|' Deployment.yaml
+"""
                   
                   sh "kubectl apply -f Deployment.yaml"
                   sh "kubectl apply -f Service.yaml"
