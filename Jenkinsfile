@@ -37,5 +37,26 @@ pipeline {
                 }
             }
         }
+        stage('minikube'){
+            steps{
+                script{
+                    sh "minikube start --driver=docker"
+                  sh "cd manifest/" 
+                  sh " sed -i 's/image: godfather77701\/webapp:.*/image: godfather77701\/webapp:'"${BUILD_NUMBER}"'/' Deployment.yaml"
+                  
+                  sh "kubectl apply -f Deployment.yaml"
+                  sh "kubectl apply -f Service.yaml"
+                  sh "kubectl apply -f ingress.yaml"
+                  sh "minikube addons enable ingress"
+
+                   
+                   
+                   
+                    
+                }
+            }
+        }
+
+
     }
 }
