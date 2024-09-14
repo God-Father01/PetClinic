@@ -1,4 +1,5 @@
 pipeline {
+    agent any
     environment {
         DOCKER_IMAGE_BUILD_ID = "${BUILD_NUMBER}"
     }
