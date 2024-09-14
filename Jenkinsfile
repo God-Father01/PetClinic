@@ -1,5 +1,7 @@
 pipeline{
-    agent any
+    environment {
+         DOCKER_IMAGE_BUILD_ID="${BUILD_NUMBER}"
+    }
 tools{
 maven 'maven'
 }
@@ -17,6 +19,20 @@ stage('Build with maven'){
     }
 }
 
+stage('Docker'){
+    steps{
+        script{
+            withCredentials([usernameColonPassword(credentialsId: 'DockerId', variable: 'DOCKER_IMAGE_BUILD_ID')]) {
+                //builds the docker image
+                sh "docker build -t godfather77701/webapp:${BUILD_NUMBER} ."
+                //push the docker image which is built with build number tag
+                def dockerImageName="godfather77701/webapp:${BUILD_NUMBER}"
+                //push the docker image
+                sh "docker push ${dockerImageName}"
+}
+        }
+    }
+}
 
 
 
