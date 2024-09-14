@@ -22,13 +22,17 @@ pipeline {
         stage('Docker') {
             steps {
                 script {
-                   withCredentials([usernameColonPassword(credentialsId: 'DockerId', variable: 'DOCKER_IMAGE_BUILD_ID')]) {
-                //builds the docker image
-                sh "docker build -t godfather77701/webapp:${BUILD_NUMBER} ."
-                //push the docker image which is built with build number tag
-                def dockerImageName="godfather77701/webapp:${BUILD_NUMBER}"
-                //push the docker image
-                sh "docker push ${dockerImageName}"
+                    // Fetch Docker credentials from Jenkins
+                    withCredentials([usernamePassword(credentialsId: 'DockerId', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        // Build the Docker image
+                        sh "docker build -t godfather77701/webapp:${BUILD_NUMBER} ."
+                        
+                        // Log in to Docker Hub
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                        
+                        // Push the Docker image
+                        def dockerImageName = "godfather77701/webapp:${BUILD_NUMBER}"
+                        sh "docker push ${dockerImageName}"
                     }
                 }
             }
