@@ -10,7 +10,7 @@ stage('Source Code Checkout '){
         git 'https://github.com/God-Father01/PetClinic.git'
     }
 }
-}
+
 stage('Build with maven'){
     steps{
         sh 'mvn clean install package'
@@ -19,4 +19,6 @@ stage('Build with maven'){
 
 
 
+
+}
 }
