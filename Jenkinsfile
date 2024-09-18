@@ -37,19 +37,27 @@ pipeline {
                 }
             }
         }
-        stage('minikube'){
+        stage('minikube')
+        environment{
+                GIT_REPO_NAME="PetClinic"
+                GIT_USER_NAME="God-Father01"
+            }
+        {
             steps{
                 script{
-                    sh "minikube start --driver=docker"
-                  sh "cd manifest/" 
-                sh """
-    sed -i 's|image: godfather77701/webapp:.*|image: godfather77701/webapp:${BUILD_NUMBER}|' Deployment.yaml
-"""
-                  
-                  sh "kubectl apply -f Deployment.yaml"
-                  sh "kubectl apply -f Service.yaml"
-                  sh "kubectl apply -f ingress.yaml"
-                  sh "minikube addons enable ingress"
+                    withCredentials([usernameColonPassword(credentialsId: 'Githubtoken', variable: 'GIT_REPO_NAME')]) {
+                        sh '''
+                        git conig user.email "godfather77701@gmail.com"
+                        git congig user.name "God-Father01"
+                        DOCKER_IMAGE_BUILD_ID = "${BUILD_NUMBER}"
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" PetClinic/tree/master/manifest/Deployment.yaml
+                        git add PetClinic/tree/master/manifest/Deployment.yaml
+                        git commit -m "replace imagetag"
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_REPO_NAME } HEAD:main
+
+
+                        '''
+}
 
                    
                    
