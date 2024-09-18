@@ -37,36 +37,26 @@ pipeline {
                 }
             }
         }
-        stage('minikube')
-        environment{
-                GIT_REPO_NAME="PetClinic"
-                GIT_USER_NAME="God-Father01"
+
+        stage('Minikube') {
+            environment {
+                GIT_REPO_NAME = "PetClinic"
+                GIT_USER_NAME = "God-Father01"
             }
-        {
-            steps{
-                script{
-                    withCredentials([usernameColonPassword(credentialsId: 'Githubtoken', variable: 'GIT_REPO_NAME')]) {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'Githubtoken', usernameVariable: 'GITHUB_TOKEN', passwordVariable: 'GITHUB_PASSWORD')]) {
                         sh '''
-                        git conig user.email "godfather77701@gmail.com"
-                        git congig user.name "God-Father01"
-                        DOCKER_IMAGE_BUILD_ID = "${BUILD_NUMBER}"
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" PetClinic/tree/master/manifest/Deployment.yaml
-                        git add PetClinic/tree/master/manifest/Deployment.yaml
-                        git commit -m "replace imagetag"
-                        git push https://${GITHUB_TOKEN}@github.com/${GIT_REPO_NAME } HEAD:main
-
-
+                        git config user.email "godfather77701@gmail.com"
+                        git config user.name "God-Father01"
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" manifest/Deployment.yaml
+                        git add manifest/Deployment.yaml
+                        git commit -m "Replace image tag with ${BUILD_NUMBER}"
+                        git push https://${GITHUB_TOKEN}@github.com/${GIT_REPO_NAME}.git HEAD:main
                         '''
-}
-
-                   
-                   
-                   
-                    
+                    }
                 }
             }
         }
-
-
     }
 }
