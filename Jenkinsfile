@@ -49,7 +49,8 @@ pipeline {
                         sh '''
                         git config user.email "godfather77701@gmail.com"
                         git config user.name "God-Father01"
-                        sed -i "s#godfather77701/webapp/${BUILD_NUMBER}#g" PetClinic/manifest/Deployment.yaml
+                        sed -i "s#godfather77701/webapp:[0-9]\+#godfather77701/webapp:${BUILD_NUMBER}#g" PetClinic/manifest/Deployment.yaml
+
 
                         git add PetClinic/manifest/Deployment.yaml
                         git commit -m "Replace image tag with ${BUILD_NUMBER}"
