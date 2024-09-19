@@ -61,7 +61,7 @@ pipeline {
                             git commit -m "Replace image tag with ${BUILD_NUMBER}"
 
                             # Push to GitHub
-                            git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                            git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
                         '''
                     }
                 }
