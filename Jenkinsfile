@@ -49,6 +49,9 @@ pipeline {
                         sh '''
                         git config user.email "godfather77701@gmail.com"
                         git config user.name "God-Father01"
+                        pwd
+
+                        
                         sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" PetClinic/manifest/Deployment.yaml
 
 
