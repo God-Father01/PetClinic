@@ -55,16 +55,16 @@ pipeline {
                     #pwd
 
                     # Replace the image tag in the Deployment.yaml using the workspace variable
-                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" /God-Father01/PetClinic/manifest/Deployment.yaml
+                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" ${WORKSPACE}/manifest/Deployment.yaml
 
                     # Stage, commit, and push the changes
-                    git add /God-Father01/PetClinic/manifest/Deployment.yaml
+                    git add ${WORKSPACE}/manifest/Deployment.yaml
                     git commit -m "Replace image tag with ${BUILD_NUMBER}"
 
                     # Push to GitHub (ensure you use the correct branch)
                     #git push https://$GITHUB_TOKEN@github.com/$GIT_USER_NAME/$GIT_REPO_NAME.git HEAD:main
                     git push 'https://God-Father01:${1234556}@github.com/God-Father01/PetClinic.git'
-                git push https://$GITHUB_TOKEN@github.com/$GIT_USER_NAME/$GIT_REPO_NAME.git HEAD:main
+                    git push https://$GITHUB_TOKEN@github.com/$GIT_USER_NAME/$GIT_REPO_NAME.git HEAD:main
                 '''
             }
         }
