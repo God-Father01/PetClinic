@@ -52,7 +52,7 @@ pipeline {
                         pwd
 
                         
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" PetClinic/manifest/Deployment.yaml
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
 
 
                         git add PetClinic/manifest/Deployment.yaml
