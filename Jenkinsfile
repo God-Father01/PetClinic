@@ -64,7 +64,7 @@ pipeline {
                     # Push to GitHub (ensure you use the correct branch)
                     #git push https://$GITHUB_TOKEN@github.com/$GIT_USER_NAME/$GIT_REPO_NAME.git HEAD:main
                     git push 'https://God-Father01:${1234556}@github.com/God-Father01/PetClinic.git'
-                $git push https://$GITHUB_TOKEN@github.com/$GIT_USER_NAME/$GIT_REPO_NAME.git HEAD:master
+                git push https://$GITHUB_TOKEN@github.com/$GIT_USER_NAME/$GIT_REPO_NAME.git HEAD:main
                 '''
             }
         }
