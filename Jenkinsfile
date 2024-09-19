@@ -58,7 +58,7 @@ pipeline {
 
                         git add /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
                         git commit -m "Replace image tag with ${BUILD_NUMBER}"
-                        git push https://${GithubWebapp}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
+                        git push https://${GIT_USER_NAME}:${GithubWebapp}@github.com/God-Father01/PetClinic HEAD:master
                         '''
                     }
                 }
