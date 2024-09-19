@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: petclinic
-        image: godfather77701/webapp:v49
+        image: godfather77701/webapp:replaceImageTag
         ports:
         - containerPort: 8080
 
