@@ -46,7 +46,7 @@ pipeline {
             steps {
                 script {
                     // Access the GitHub Personal Access Token
-                    withCredentials([string(credentialsId: 'GithubWebapp', variable: 'GITHUB_TOKEN')]) {
+                    withCredentials([string(credentialsId: '123456', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                             # Configure Git user details
                             git config user.email "godfather77701@gmail.com"
