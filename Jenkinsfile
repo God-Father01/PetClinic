@@ -39,34 +39,35 @@ pipeline {
         }
 
         stage('Minikube') {
-            environment {
-                GIT_REPO_NAME = "PetClinic"
-                GIT_USER_NAME = "God-Father01"
-            }
-            steps {
-                script {
-                    // Access the GitHub Personal Access Token
-                    withCredentials([string(credentialsId: '123456', variable: 'GITHUB_TOKEN')]) {
-                        sh '''
-                            # Configure Git user details
-                            git config user.email "godfather77701@gmail.com"
-                            git config user.name "${GIT_USER_NAME}"
-                            pwd
+    environment {
+        GIT_REPO_NAME = "PetClinic"
+        GIT_USER_NAME = "God-Father01"
+    }
+    steps {
+        script {
+            withCredentials([string(credentialsId: '123456', variable: 'GITHUB_TOKEN')]) {
+                sh '''
+                    set -x
 
-                            # Replace the image tag in the Deployment.yaml
-                            sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
+                    # Configure Git user details
+                    git config user.email "godfather77701@gmail.com"
+                    git config user.name "${GIT_USER_NAME}"
+                    pwd
 
-                            # Stage, commit, and push the changes
-                            git add /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
-                            git commit -m "Replace image tag with ${BUILD_NUMBER}"
+                    # Replace the image tag in the Deployment.yaml using the workspace variable
+                    sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" ${WORKSPACE}/manifest/Deployment.yaml
 
-                            # Push to GitHub
-                            git push -u origin master
-                        '''
-                    }
-                }
+                    # Stage, commit, and push the changes
+                    git add ${WORKSPACE}/manifest/Deployment.yaml
+                    git commit -m "Replace image tag with ${BUILD_NUMBER}"
+
+                    # Push to GitHub (ensure you use the correct branch)
+                    git push https://$GITHUB_TOKEN@github.com/$GIT_USER_NAME/$GIT_REPO_NAME.git HEAD:main
+                '''
             }
         }
+    }
+}
     }
 }
 
