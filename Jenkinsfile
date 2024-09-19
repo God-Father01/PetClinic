@@ -45,8 +45,9 @@ pipeline {
             }
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'Githubtoken', usernameVariable: 'GITHUB_TOKEN', passwordVariable: 'GITHUB_PASSWORD')]) {
-                        sh '''
+                   withCredentials([string(credentialsId: 'GithubWebapp', variable: ' GIT_USER_NAME')]) {
+    
+                       sh '''
                         git config user.email "godfather77701@gmail.com"
                         git config user.name "God-Father01"
                         pwd
@@ -57,7 +58,7 @@ pipeline {
 
                         git add /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
                         git commit -m "Replace image tag with ${BUILD_NUMBER}"
-                        git push https://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@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
+                        git push https://${GithubWebapp}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:master
                         '''
                     }
                 }
