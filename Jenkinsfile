@@ -49,7 +49,7 @@ pipeline {
                         sh '''
                         git config user.email "godfather77701@gmail.com"
                         git config user.name "God-Father01"
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" PetClinic/manifest/Deployment.yaml
+                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" /PetClinic/tree/master/manifest/Deployment.yaml
 
 
                         git add PetClinic/manifest/Deployment.yaml
