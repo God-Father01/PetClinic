@@ -45,20 +45,23 @@ pipeline {
             }
             steps {
                 script {
-                   withCredentials([string(credentialsId: 'GithubWebapp', variable: ' GIT_USER_NAME')]) {
-    
-                       sh '''
-                        git config user.email "godfather77701@gmail.com"
-                        git config user.name "God-Father01"
-                        pwd
+                    // Access the GitHub Personal Access Token
+                    withCredentials([string(credentialsId: 'GithubWebapp', variable: 'GITHUB_TOKEN')]) {
+                        sh '''
+                            # Configure Git user details
+                            git config user.email "godfather77701@gmail.com"
+                            git config user.name "${GIT_USER_NAME}"
+                            pwd
 
-                        
-                        sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
+                            # Replace the image tag in the Deployment.yaml
+                            sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
 
+                            # Stage, commit, and push the changes
+                            git add /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
+                            git commit -m "Replace image tag with ${BUILD_NUMBER}"
 
-                        git add /var/lib/jenkins/workspace/Petclinic/manifest/Deployment.yaml
-                        git commit -m "Replace image tag with ${BUILD_NUMBER}"
-                        git push https://${GIT_USER_NAME}:${GithubWebapp}@github.com/God-Father01/PetClinic HEAD:master
+                            # Push to GitHub
+                            git push https://${GITHUB_TOKEN}@github.com/${GIT_USER_NAME}/${GIT_REPO_NAME} HEAD:main
                         '''
                     }
                 }
@@ -66,3 +69,5 @@ pipeline {
         }
     }
 }
+
+    
